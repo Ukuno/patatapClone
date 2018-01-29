@@ -4,19 +4,30 @@
 	<title>circles</title>
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	<script type="text/javascript" src="paper-full.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.8/howler.js"></script>
+	<script type="text/javascript" src="data.js"></script>
 	
 	<!-- Define inlined PaperScript associate it with myCanvas -->
 	<script type="text/paperscript" canvas="myCanvas">
-
+		
 		var circles = [];
 
 		function onKeyDown(event) {
-		var maxpoint = new Point(view.size.width , view.size.height);
-		var randomPosition = Point.random();
-		var point = maxpoint * randomPosition ; 
-		var newCircles = new Path.Circle(point,500);
-		newCircles.fillColor = "red";
-		circles.push(newCircles);
+			if(keyData[event.key]){
+				var maxpoint = new Point(view.size.width , view.size.height);
+
+				var randomPosition = Point.random();
+
+				var point = maxpoint * randomPosition ; 
+
+				var newCircles = new Path.Circle(point,500);
+
+				newCircles.fillColor = keyData[event.key].color;
+
+				keyData[event.key].sound.play();
+
+				circles.push(newCircles);
+			}
 		}
 
 
@@ -37,3 +48,7 @@
 
 </body>
 </html>
+
+var sound = new Howl({
+			  src: ['sounds/bubbles.mp3']
+			});
